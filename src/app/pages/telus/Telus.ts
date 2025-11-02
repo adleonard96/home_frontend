@@ -16,12 +16,24 @@ export class Telus {
 
   constructor() {
     effect(() => {
-      this.getData();
+      let todayEpoch = Date.now();
+      let today = new Date();
+      let daysFromSunday = today.getDay();
+      const SATURDAY_NO = 6;
+      let daysToSaturday = SATURDAY_NO - today.getDay();
+
+      let DAY_IN_MS = 86_400_000
+      let sunday = new Date(todayEpoch - daysFromSunday * DAY_IN_MS);
+      let saturday = new Date(todayEpoch + daysToSaturday * DAY_IN_MS);
+
+      this.getData(sunday, saturday);
     })
   }
   
-  getData() {
-    let url = this.apiUrl + 'workEvents?start=2025-07-01&end=2025-12-31'
+  getData(startDate: Date, endDate: Date) {
+    let sunday = startDate.toISOString().slice(0,10);
+    let saturday = endDate.toISOString().slice(0,10);
+    let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
     return this.http.get(url).subscribe(res => {
       console.log(res);
     });
