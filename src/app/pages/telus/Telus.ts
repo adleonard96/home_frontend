@@ -1,6 +1,7 @@
 import { Component, effect, inject, Injectable, signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { TelusService } from './services/Telus.service';
 
 @Component({
   selector: 'telus-root',
@@ -11,8 +12,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class Telus {
-  private http = inject(HttpClient);
-  private apiUrl = `http://192.168.1.21:8081/`
+  private service = inject(TelusService);
 
   constructor() {
     effect(() => {
@@ -26,17 +26,8 @@ export class Telus {
       let sunday = new Date(todayEpoch - daysFromSunday * DAY_IN_MS);
       let saturday = new Date(todayEpoch + daysToSaturday * DAY_IN_MS);
 
-      this.getData(sunday, saturday);
+      this.service.getWorkEvents(sunday, saturday);
     })
   }
   
-  getData(startDate: Date, endDate: Date) {
-    let sunday = startDate.toISOString().slice(0,10);
-    let saturday = endDate.toISOString().slice(0,10);
-    let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
-    return this.http.get(url).subscribe(res => {
-      console.log(res);
-    });
-  }
-
 }
