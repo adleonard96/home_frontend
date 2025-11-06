@@ -29,5 +29,9 @@ export class Telus {
       this.service.getWorkEvents(sunday, saturday);
     })
   }
+
+  creatWorkEvent() {
+    this.service.createWorkEvent(new Date());
+  }
   
 }
