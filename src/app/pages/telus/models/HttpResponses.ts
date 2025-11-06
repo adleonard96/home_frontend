@@ -5,4 +5,11 @@ export namespace HttpResponses {
         start: string,
         stop?: string
     }
+
+    export interface event {
+        dayOfWeek: string,
+        id: number,
+        start: string,
+        stop?: string
+    }
 }

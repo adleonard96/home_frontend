@@ -2,5 +2,15 @@
     <div>
         <h1>Telus page</h1>
         <button (click)="creatWorkEvent()">Create Event</button>
+        @if (events.length == 0) {
+            <p>No items found</p>
+        } @else {
+            @for (event of events; track $index) {
+                <p>{{event.id}}</p>
+                <p>{{event.start}}</p>
+                <p>{{event.stop}}</p>
+                <p>{{event.dayOfWeek}}</p>
+            }
+        }
     </div>
 </main>

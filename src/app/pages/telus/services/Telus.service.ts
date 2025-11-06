@@ -13,9 +13,7 @@ export class TelusService {
     let sunday = start.toISOString().slice(0, 10);
     let saturday = end.toISOString().slice(0, 10);
     let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
-    this.http.get(url).subscribe((res) => {
-      return res;
-    });
+    return this.http.get<Array<HttpResponses.event>>(url);
   }
 
   createWorkEvent(start: Date): Partial<Observable<HttpResponses.createEventResponse>> | null | void {
