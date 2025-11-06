@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { error } from 'node:console';
+import { HttpResponses } from "../models/HttpResponses";
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TelusService {
@@ -16,19 +18,17 @@ export class TelusService {
     });
   }
 
-  createWorkEvent(start: Date) {
+  createWorkEvent(start: Date): Partial<Observable<HttpResponses.createEventResponse>> | null | void {
     this.http.post(this.apiUrl + 'workEvent', {
       "start": start.toISOString().slice(0,19),
       "dayOfWeek": this.getDayString(start.getDay())
     }).subscribe({
-      next: (response) => {
-        console.log(response)
+      next: (response: Partial<Observable<HttpResponses.createEventResponse>>) => {
+        return response;
       },
       error: (error) => {
         console.error(error)
-      },
-      complete: () => {
-        console.log('Event created')
+        return null
       }
     })
   }
