@@ -5,10 +5,11 @@ import { TelusService } from './services/Telus.service';
 import { Observable } from 'rxjs';
 import { HttpResponses } from './models/HttpResponses';
 import { error } from 'node:console';
+import { WorkEvent } from "./components/work-event/work-event";
 
 @Component({
   selector: 'telus-root',
-  imports: [RouterOutlet, RouterModule],
+  imports: [RouterOutlet, RouterModule, WorkEvent],
   templateUrl: './Telus.html',
   styleUrl: './Telus.css',
 })

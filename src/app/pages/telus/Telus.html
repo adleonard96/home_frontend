@@ -1,18 +1,16 @@
 <main class="main">
-    <div>
-        <h1>Telus page</h1>
-        <button (click)="creatWorkEvent()">Create Event</button>
-        @if (events.length == 0) {
-            <p>No items found</p>
-        } @else {
-            @for (event of events; track $index) {
-                <p>{{event.id}}</p>
-                <p>{{event.start}}</p>
-                <p>{{event.stop ? event.stop : "Event not stopped"}}</p>
-                <p>{{event.dayOfWeek}}</p>
-                <button>Stop</button>
-                <button>Edit</button>
-            }
-        }
-    </div>
+  <div>
+    <h1>Telus page</h1>
+    <button (click)="creatWorkEvent()">Create Event</button>
+    @if (events.length == 0) {
+    <p>No items found</p>
+    } @else { @for (event of events; track $index) {
+    <app-work-event
+      [dayOfWeek]="event.dayOfWeek"
+      [id]="event.id"
+      [start]="event.start"
+      [stop]="event.stop"
+    />
+    } }
+  </div>
 </main>
