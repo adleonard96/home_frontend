@@ -8,8 +8,10 @@
             @for (event of events; track $index) {
                 <p>{{event.id}}</p>
                 <p>{{event.start}}</p>
-                <p>{{event.stop}}</p>
+                <p>{{event.stop ? event.stop : "Event not stopped"}}</p>
                 <p>{{event.dayOfWeek}}</p>
+                <button>Stop</button>
+                <button>Edit</button>
             }
         }
     </div>
