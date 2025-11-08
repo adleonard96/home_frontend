@@ -2,6 +2,9 @@
   <p>{{ start }}</p>
   <p>{{ stop ? stop : 'Event not stopped' }}</p>
   <p>{{ dayOfWeek }}</p>
-  <button>Stop</button>
-  <button>Edit</button>
+  @if (!stop) {
+    <button>Stop</button>
+  } @else {
+    <button>Edit</button>
+  } 
 </div>
