@@ -2,15 +2,17 @@
   <div>
     <h1>Telus page</h1>
     <button (click)="creatWorkEvent()">Create Event</button>
-    @if (events.length == 0) {
-    <p>No items found</p>
-    } @else { @for (event of events; track $index) {
-    <app-work-event
-      [dayOfWeek]="event.dayOfWeek"
-      [id]="event.id"
-      [start]="event.start"
-      [stop]="event.stop"
-    />
-    } }
+    @if(events | async){
+      @for (event of (events | async); track $index) {
+      <app-work-event
+        [dayOfWeek]="event.dayOfWeek"
+        [id]="event.id"
+        [start]="event.start"
+        [stop]="event.stop"
+      />
+      } 
+    } @else {
+      <h1>No events available</h1>
+    }
   </div>
 </main>

@@ -3,7 +3,7 @@
   <p>{{ stop ? stop : 'Event not stopped' }}</p>
   <p>{{ dayOfWeek }}</p>
   @if (!stop) {
-    <button>Stop</button>
+    <button (click)="stopEvent(id!)">Stop</button>
   } @else {
     <button>Edit</button>
   } 

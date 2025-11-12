@@ -6,17 +6,18 @@ import { Observable } from 'rxjs';
 import { HttpResponses } from './models/HttpResponses';
 import { error } from 'node:console';
 import { WorkEvent } from "./components/work-event/work-event";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'telus-root',
-  imports: [RouterOutlet, RouterModule, WorkEvent],
+  imports: [RouterOutlet, RouterModule, WorkEvent, AsyncPipe],
   templateUrl: './Telus.html',
   styleUrl: './Telus.css',
 })
 @Injectable({ providedIn: 'root' })
 export class Telus {
   private service = inject(TelusService);
-  events: Array<HttpResponses.event> = [];
+  events: Observable<Array<HttpResponses.event>> | undefined;
   constructor() {
     effect(() => {
       let todayEpoch = Date.now();
@@ -29,11 +30,7 @@ export class Telus {
       let sunday = new Date(todayEpoch - daysFromSunday * DAY_IN_MS);
       let saturday = new Date(todayEpoch + daysToSaturday * DAY_IN_MS);
 
-      this.service.getWorkEvents(sunday, saturday).subscribe(
-        value => this.events.push(...value),
-        error => console.error(error),
-        () => console.log("Retrieved")
-      );
+      this.events = this.service.getWorkEvents(sunday, saturday);
     });
   }
 

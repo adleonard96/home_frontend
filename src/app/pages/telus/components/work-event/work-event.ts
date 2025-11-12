@@ -11,4 +11,8 @@ export class WorkEvent {
   @Input() id: number | undefined;
   @Input() start: string | undefined;
   @Input() stop: string | undefined;
+
+  stopEvent(id: number) {
+    console.log(`stopping ${id}`)
+  }
 }
