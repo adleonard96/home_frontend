@@ -31,6 +31,10 @@ export class TelusService {
     })
   }
 
+  stopWorkEvent(id: number): Observable<HttpResponses.event> {
+    return this.http.patch(this.apiUrl+'workEvent/stop/'+id,null) as Observable<HttpResponses.event>;
+  }
+
   private getDayString(dayOfWeek: number): string {
     if (dayOfWeek > 6 || dayOfWeek < 0) {
       throw new Error("Date range is incorrect");
