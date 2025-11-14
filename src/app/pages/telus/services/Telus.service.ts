@@ -16,19 +16,20 @@ export class TelusService {
     return this.http.get<Array<HttpResponses.event>>(url);
   }
 
-  createWorkEvent(start: Date): Partial<Observable<HttpResponses.createEventResponse>> | null | void {
-    this.http.post(this.apiUrl + 'workEvent', {
+  createWorkEvent(start: Date): Observable<HttpResponses.event> {
+    return this.http.post<HttpResponses.event>(this.apiUrl + 'workEvent', {
       "start": start.toISOString().slice(0,19),
       "dayOfWeek": this.getDayString(start.getDay())
-    }).subscribe({
-      next: (response: Partial<Observable<HttpResponses.createEventResponse>>) => {
-        return response;
-      },
-      error: (error) => {
-        console.error(error)
-        return null
-      }
     })
+    // .subscribe({
+    //   next: (response: Observable<HttpResponses.event>) => {
+    //     return response;
+    //   },
+    //   error: (error) => {
+    //     throw error;
+    //   }
+    // })
+    // throw new Error();
   }
 
   stopWorkEvent(id: number): Observable<HttpResponses.event> {

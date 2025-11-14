@@ -2,8 +2,8 @@
   <div>
     <h1>Telus page</h1>
     <button (click)="creatWorkEvent()">Create Event</button>
-    @if(events | async){
-      @for (event of (events | async); track $index) {
+    @if(events().length > 0 ){
+      @for (event of (events()); track $index) {
       <app-work-event
         [dayOfWeek]="event.dayOfWeek"
         [id]="event.id"

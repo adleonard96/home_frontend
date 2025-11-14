@@ -1,11 +1,11 @@
-import { Component, effect, inject, Injectable, signal } from '@angular/core';
+import { Component, effect, EventEmitter, inject, Injectable, Output, signal, WritableSignal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TelusService } from './services/Telus.service';
-import { Observable } from 'rxjs';
+import { concatMap, map, Observable, of, scan } from 'rxjs';
 import { HttpResponses } from './models/HttpResponses';
 import { error } from 'node:console';
-import { WorkEvent } from "./components/work-event/work-event";
+import { WorkEvent } from './components/work-event/work-event';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -17,7 +17,10 @@ import { AsyncPipe } from '@angular/common';
 @Injectable({ providedIn: 'root' })
 export class Telus {
   private service = inject(TelusService);
-  events: Observable<Array<HttpResponses.event>> | undefined;
+  @Output() updateComplete = new EventEmitter<void>();
+    
+  // events: Array<HttpResponses.event>;
+  events: WritableSignal<HttpResponses.event[]> = signal([])
   constructor() {
     effect(() => {
       let todayEpoch = Date.now();
@@ -30,11 +33,30 @@ export class Telus {
       let sunday = new Date(todayEpoch - daysFromSunday * DAY_IN_MS);
       let saturday = new Date(todayEpoch + daysToSaturday * DAY_IN_MS);
 
-      this.events = this.service.getWorkEvents(sunday, saturday);
+      this.service.getWorkEvents(sunday, saturday).subscribe(
+        value => {
+          if (value.length > 0){
+            this.events.set(value)
+          }
+        },
+        error => console.error(error)
+      );
     });
   }
 
   creatWorkEvent() {
-    this.service.createWorkEvent(new Date());
+    let res = this.service.createWorkEvent(new Date());
+
+    res.subscribe(
+      value => {
+        if (value) {
+          this.events.set([...this.events(), value])
+        }
+      }
+    )
+  }
+
+  deleteWorkEvent(id: number) {
+    this.events.set(this.events().filter(event => event.id != id));
   }
 }
