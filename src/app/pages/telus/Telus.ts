@@ -36,7 +36,7 @@ export class Telus {
       this.service.getWorkEvents(sunday, saturday).subscribe(
         value => {
           if (value.length > 0){
-            this.events.set(value)
+            this.events.set(value.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()))
           }
         },
         error => console.error(error)
@@ -50,7 +50,7 @@ export class Telus {
     res.subscribe(
       value => {
         if (value) {
-          this.events.set([...this.events(), value])
+          this.events.set([value, ...this.events()])
         }
       }
     )
