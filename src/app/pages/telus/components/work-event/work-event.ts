@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { TelusService } from '../../services/Telus.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Telus } from '../../Telus';
 
 @Component({
   selector: 'app-work-event',
@@ -17,6 +18,7 @@ export class WorkEvent {
   @Output() updateComplete = new EventEmitter<void>();
 
   private service = inject(TelusService);
+  private master = inject(Telus);
   
   private stopSubject = new BehaviorSubject<string | undefined>(undefined);
   stop$?: Observable<string | undefined> = this.stopSubject.asObservable();
@@ -37,5 +39,13 @@ export class WorkEvent {
       },
       error: err => console.error(err)
     });
+  }
+
+  deleteEvent(id: number) {
+    this.service.deleteWorkEvent(id).subscribe({
+      complete: (() => {
+        this.master.deleteWorkEvent(id);
+      })
+    })
   }
 }

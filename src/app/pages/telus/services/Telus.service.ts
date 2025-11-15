@@ -8,6 +8,11 @@ import { Observable } from 'rxjs';
 export class TelusService {
   private http = inject(HttpClient);
   private apiUrl = `http://192.168.1.21:8081/`;
+  
+  deleteWorkEvent(id: number) {
+    let url = this.apiUrl + "workEvent/" +id;
+    return this.http.delete(url);
+  }
 
   getWorkEvents(start: Date, end: Date) {
     let sunday = start.toISOString().slice(0, 10);
