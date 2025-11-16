@@ -7,6 +7,7 @@ RUN npm ci
 
 COPY . .
 
+RUN npm run build
 # RUN npm run build  # <-- THIS WAS MISSING
 
 EXPOSE 4200
