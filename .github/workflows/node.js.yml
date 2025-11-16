@@ -38,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build --build-arg URL="${{ secrets.URL }}" --build-arg USER="${{ secrets.USER }}" --build-arg PASSWORD="${{ secrets.PASSWORD }}" -t ${{ secrets.DOCKER_HUB_USERNAME }}/backend-rater:latest .
+      run: docker build --build-arg URL="${{ secrets.URL }}" --build-arg USER="${{ secrets.USER }}" --build-arg PASSWORD="${{ secrets.PASSWORD }}" -t ${{ secrets.DOCKER_HUB_USERNAME }}/homefrontend:latest .
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/homefrontend:latest
