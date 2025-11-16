@@ -59,4 +59,8 @@ export class Telus {
   deleteWorkEvent(id: number) {
     this.events.set(this.events().filter(event => event.id != id));
   }
+
+  // calcTimeForWeek() {
+  //   let events = this.events().filter()
+  // }
 }
