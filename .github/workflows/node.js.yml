@@ -38,7 +38,7 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build --platform arm64v8/node -t ${{ secrets.DOCKER_HUB_USERNAME }}/homefrontend:latest .
+      run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/homefrontend:latest .
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/homefrontend:latest
