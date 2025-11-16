@@ -1,4 +1,4 @@
-FROM arm64v8/node:lts-slim 
+FROM arm64v8/node:krypton-alpine3.22
 
 WORKDIR /app
 
