@@ -1,4 +1,4 @@
-FROM arm64v8/node:krypton-alpine3.22
+FROM --platform=arm64 node:latest
 
 WORKDIR /app
 
