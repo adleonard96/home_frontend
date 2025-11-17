@@ -15,6 +15,8 @@ export class TelusService {
   }
 
   getWorkEvents(start: Date, end: Date) {
+    start.setHours(12);
+    end.setHours(12);
     let sunday = start.toISOString().slice(0, 10);
     let saturday = end.toISOString().slice(0, 10);
     let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
