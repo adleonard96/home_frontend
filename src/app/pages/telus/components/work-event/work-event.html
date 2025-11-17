@@ -11,7 +11,10 @@
   @if (!stopValue) {
     <button (click)="stopEvent(id!)">Stop</button>
   } @else {
-    <button>Edit</button>
+    <button (click)="updateEdit()">Edit</button>
   } 
   <button (click)="deleteEvent(id!)">Delete</button>
+  @if (editMode) {
+    <div>Edit form here</div>
+  }
 </div>

@@ -17,6 +17,8 @@ export class WorkEvent {
   @Input() stop: string | undefined;
   @Output() updateComplete = new EventEmitter<void>();
 
+  editMode: boolean = false;
+
   private service = inject(TelusService);
   private master = inject(Telus);
   
@@ -27,6 +29,10 @@ export class WorkEvent {
     if (this.stop) {
       this.stopSubject.next(this.stop);
     }
+  }
+
+  updateEdit() {
+    this.editMode = true;
   }
 
   stopEvent(id: number) {
