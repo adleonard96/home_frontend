@@ -15,6 +15,10 @@
   } 
   <button (click)="deleteEvent(id!)">Delete</button>
   @if (editMode) {
-    <div>Edit form here</div>
+    <app-edit-form
+      [id]="id!"
+      [start]="start"
+      [stop]="stopValue"
+      [dayOfWeek]="dayOfWeek"/>
   }
 </div>

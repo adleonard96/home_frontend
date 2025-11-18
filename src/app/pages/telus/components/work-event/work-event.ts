@@ -3,10 +3,11 @@ import { AsyncPipe } from '@angular/common';
 import { TelusService } from '../../services/Telus.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Telus } from '../../Telus';
+import { EditForm } from "../edit-form/edit-form";
 
 @Component({
   selector: 'app-work-event',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, EditForm],
   templateUrl: './work-event.html',
   styleUrl: './work-event.css',
 })

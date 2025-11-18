@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class EditForm {
   @Input() id: number = Infinity;
-  @Input() start: Date = new Date();
-  @Input() end: Date = new Date();
+  @Input() start: string  | undefined= '';
+  @Input() stop: string | null | undefined= null;
+  @Input() dayOfWeek: string | undefined= '';
 }
