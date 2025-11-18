@@ -36,6 +36,17 @@ export class WorkEvent {
     this.editMode = true;
   }
 
+  closeEdit() {
+    this.editMode = false;
+  }
+
+  editEvent(start: string, stop: string, dayOfWeek: string) {
+    this.start = start;
+    this.stopSubject.next(stop);
+    this.dayOfWeek = dayOfWeek;
+    this.updateComplete.emit()
+  }
+
   stopEvent(id: number) {
     this.service.stopWorkEvent(id).pipe(
       map(res => res.stop)

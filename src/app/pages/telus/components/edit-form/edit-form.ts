@@ -11,4 +11,16 @@ export class EditForm {
   @Input() start: string  | undefined= '';
   @Input() stop: string | null | undefined= null;
   @Input() dayOfWeek: string | undefined= '';
+  @Input() closeFn: any;
+  @Input() updateEvent: any;
+
+  close() {
+    if (this.closeFn) {
+      this.closeFn();
+    }
+  }
+
+  submit(start: string, stop: string) {
+
+  }
 }
