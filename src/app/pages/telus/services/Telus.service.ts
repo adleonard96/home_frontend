@@ -28,15 +28,15 @@ export class TelusService {
       "start": start.toISOString().slice(0,19),
       "dayOfWeek": this.getDayString(start.getDay())
     })
-    // .subscribe({
-    //   next: (response: Observable<HttpResponses.event>) => {
-    //     return response;
-    //   },
-    //   error: (error) => {
-    //     throw error;
-    //   }
-    // })
-    // throw new Error();
+  }
+
+  updateWorkEvent(id: number, start: Date, stop: Date){
+    return this.http.patch<HttpResponses.event>(this.apiUrl + 'workEvent', {
+      "start": start.toISOString().slice(0,19),
+      "stop": stop.toISOString().slice(0,19),
+      "dayOfWeek": this.getDayString(start.getDay()),
+      "id": id
+    })
   }
 
   stopWorkEvent(id: number): Observable<HttpResponses.event> {
