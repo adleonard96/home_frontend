@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { TelusService } from '../../services/Telus.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { error } from 'node:console';
 
 @Component({
   selector: 'app-edit-form',
@@ -16,9 +17,10 @@ export class EditForm implements OnChanges {
   @Input() dayOfWeek: string | undefined = '';
   @Input() closeFn: any;
   @Input() updateEvent: any;
+  
 
-  formStart = new FormControl<string | null>(null);
-  formStop = new FormControl<string | null>(null);
+  formStart = new FormControl<string | null | undefined>(null);
+  formStop = new FormControl<string | null | undefined>(null);
 
   private service = inject(TelusService);
 
@@ -26,6 +28,7 @@ export class EditForm implements OnChanges {
     this.formStart.setValue(this.toLocalInputValue(this.start));
     this.formStop.setValue(this.toLocalInputValue(this.stop));
   }
+
   private toLocalInputValue(dateString?: string | null): string {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -37,9 +40,19 @@ export class EditForm implements OnChanges {
     this.closeFn?.();
   }
 
-  // submit() {
-  //   if (!this.formStart.value || !this.formStop.value) return;
+  submit() {
+    if (!this.formStart.value || !this.formStop.value) return;
 
-  //   this.service.updateWorkEvent(this.id, this.formStart.value, this.formStop.value);
-  // }
+    this.service.updateWorkEvent(this.id, new Date(this.formStart.value), new Date(this.formStop.value)).subscribe(
+      value => {
+        this.formStop.setValue(value.stop),
+        this.formStart.setValue(value.start)
+        this.updateEvent(value.start, value.stop, value.dayOfWeek)
+      },
+      error => {
+        console.error(error);
+        alert("Error updating")
+      } 
+    );
+  }
 }

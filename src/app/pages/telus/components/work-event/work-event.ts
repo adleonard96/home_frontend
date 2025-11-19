@@ -66,4 +66,10 @@ export class WorkEvent {
       })
     })
   }
+
+  updateEvent(start: string, stop: string, dayOfWeek:string){
+    this.start = start;
+    this.stop = stop;
+    this.dayOfWeek = dayOfWeek;
+  }
 }
