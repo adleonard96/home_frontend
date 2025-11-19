@@ -3,7 +3,7 @@
         <label for="start">Start Date Time</label>
         <input name="start" [formControl]="formStart" type="datetime-local">
         <label for="stop">Stop Date Time</label>
-        <input name="stop" [formControl]="formStop" type="datetime-local" value="{{start}}">
+        <input name="stop" [formControl]="formStop" type="datetime-local">
         <button (click)="closeFn()">Close</button>
         <button>Submit</button>
     </form>
