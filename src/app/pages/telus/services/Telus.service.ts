@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { error } from 'node:console';
 import { HttpResponses } from "../models/HttpResponses";
 import { Observable } from 'rxjs';
+import DateTimeUtility from '../../../date-time-utility';
 
 @Injectable({ providedIn: 'root' })
 export class TelusService {
@@ -28,15 +29,15 @@ export class TelusService {
       "start": start.toISOString().slice(0,19),
       "dayOfWeek": this.getDayString(start.getDay())
     })
-    // .subscribe({
-    //   next: (response: Observable<HttpResponses.event>) => {
-    //     return response;
-    //   },
-    //   error: (error) => {
-    //     throw error;
-    //   }
-    // })
-    // throw new Error();
+  }
+
+  updateWorkEvent(id: number, start: Date, stop: Date){
+    return this.http.patch<HttpResponses.event>(this.apiUrl + 'workEvent', {
+      "start": DateTimeUtility.UtcStringWithoutOffset(start),
+      "stop": DateTimeUtility.UtcStringWithoutOffset(stop),
+      "dayOfWeek": this.getDayString(start.getDay()),
+      "id": id
+    })
   }
 
   stopWorkEvent(id: number): Observable<HttpResponses.event> {
@@ -55,7 +56,7 @@ export class TelusService {
       4: "Thursday",
       5: "Friday",
       6: "Saturday"
-    }
+    } as const;
 
     return dateGetter[dayOfWeek];
   }

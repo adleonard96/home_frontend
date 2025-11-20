@@ -3,10 +3,11 @@ import { AsyncPipe } from '@angular/common';
 import { TelusService } from '../../services/Telus.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Telus } from '../../Telus';
+import { EditForm } from "../edit-form/edit-form";
 
 @Component({
   selector: 'app-work-event',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, EditForm],
   templateUrl: './work-event.html',
   styleUrl: './work-event.css',
 })
@@ -16,6 +17,8 @@ export class WorkEvent {
   @Input() start: string | undefined;
   @Input() stop: string | undefined;
   @Output() updateComplete = new EventEmitter<void>();
+
+  editMode: boolean = false;
 
   private service = inject(TelusService);
   private master = inject(Telus);
@@ -27,6 +30,21 @@ export class WorkEvent {
     if (this.stop) {
       this.stopSubject.next(this.stop);
     }
+  }
+
+  updateEdit() {
+    this.editMode = true;
+  }
+
+  closeEdit() {
+    this.editMode = false;
+  }
+
+  editEvent(start: string, stop: string, dayOfWeek: string) {
+    this.start = start;
+    this.stopSubject.next(stop);
+    this.dayOfWeek = dayOfWeek;
+    this.updateComplete.emit()
   }
 
   stopEvent(id: number) {
@@ -47,5 +65,11 @@ export class WorkEvent {
         this.master.deleteWorkEvent(id);
       })
     })
+  }
+
+  updateEvent(start: string, stop: string, dayOfWeek:string){
+    this.start = start;
+    this.stop = stop;
+    this.dayOfWeek = dayOfWeek;
   }
 }
