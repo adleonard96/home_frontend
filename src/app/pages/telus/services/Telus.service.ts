@@ -14,7 +14,7 @@ export class TelusService {
     let url = this.apiUrl + "workEvent/" +id;
     return this.http.delete(url);
   }
-
+  
   getWorkEvents(start: Date, end: Date) {
     start.setHours(12);
     end.setHours(12);
@@ -23,7 +23,7 @@ export class TelusService {
     let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
     return this.http.get<Array<HttpResponses.event>>(url);
   }
-
+  
   createWorkEvent(start: Date): Observable<HttpResponses.event> {
     return this.http.post<HttpResponses.event>(this.apiUrl + 'workEvent', {
       "start": start.toISOString().slice(0,19),
@@ -31,6 +31,10 @@ export class TelusService {
     })
   }
 
+  resumeEvent(id: number) {
+    return this.http.patch(this.apiUrl + 'workEvent/resume/' + id,{})
+  }
+  
   updateWorkEvent(id: number, start: Date, stop: Date){
     return this.http.patch<HttpResponses.event>(this.apiUrl + 'workEvent', {
       "start": DateTimeUtility.UtcStringWithoutOffset(start),
