@@ -1,7 +1,7 @@
 import { Component, effect, EventEmitter, inject, Injectable, Output, signal, WritableSignal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { TelusService } from './services/Telus.service';
+import { TimeTrackingService } from './services/TimeTracking.service';
 import { concatMap, map, Observable, of, scan } from 'rxjs';
 import { HttpResponses } from './models/HttpResponses';
 import { error } from 'node:console';
@@ -9,14 +9,14 @@ import { WorkEvent } from './components/work-event/work-event';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'telus-root',
+  selector: 'timeTracking-root',
   imports: [RouterOutlet, RouterModule, WorkEvent, AsyncPipe],
-  templateUrl: './Telus.html',
-  styleUrl: './Telus.css',
+  templateUrl: './TimeTracking.html',
+  styleUrl: './TimeTracking.css',
 })
 @Injectable({ providedIn: 'root' })
-export class Telus {
-  private service = inject(TelusService);
+export class TimeTracking {
+  private service = inject(TimeTrackingService);
   @Output() updateComplete = new EventEmitter<void>();
     
   // events: Array<HttpResponses.event>;

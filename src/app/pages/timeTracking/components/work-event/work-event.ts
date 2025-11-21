@@ -1,8 +1,8 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { TelusService } from '../../services/Telus.service';
+import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Telus } from '../../Telus';
+import { TimeTracking } from '../../TimeTracking';
 import { EditForm } from '../edit-form/edit-form';
 import { error } from 'node:console';
 
@@ -21,8 +21,8 @@ export class WorkEvent {
   
   editMode: boolean = false;
   
-  private service = inject(TelusService);
-  private master = inject(Telus);
+  private service = inject(TimeTrackingService);
+  private master = inject(TimeTracking);
   
   private stopSubject = new BehaviorSubject<string | undefined>(undefined);
   stop$?: Observable<string | undefined> = this.stopSubject.asObservable();

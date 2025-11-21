@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Telus } from './pages/telus/Telus';
+import { TimeTracking } from './pages/timeTracking/TimeTracking';
 import { Home } from './pages/home/Home';
 
 export const routes: Routes = [
@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: Home
   },
   {
-    path: 'telus',
-    component: Telus,
+    path: 'timeTracking',
+    component: TimeTracking,
   },
 ];

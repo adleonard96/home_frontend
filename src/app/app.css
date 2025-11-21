@@ -1,3 +1,15 @@
-.content {
-       
+nav {
+    display: grid;
+    align-content: center;
+    justify-content: start;
+    background-color: #92AFD7;
+    border-radius: 0.5em;
+    grid-column: 2;
+}
+
+.links {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding-left: 1em;
 }

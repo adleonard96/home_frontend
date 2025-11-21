@@ -1,10 +1,12 @@
 <main class="main">
   <div>
-    <h1>Telus page</h1>
-    <button (click)="creatWorkEvent()">Create Event</button>
+    <div class="timeTracking-content">
+      <h1>TimeTracking page</h1>
+      <button (click)="creatWorkEvent()">Create Event</button>
+    </div>
     @if(events().length > 0 ){
       @for (event of (events()); track $index) {
-      <app-work-event
+      <app-work-event class="event"
         [dayOfWeek]="event.dayOfWeek"
         [id]="event.id"
         [start]="event.start"

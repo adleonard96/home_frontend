@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import DateTimeUtility from '../../../date-time-utility';
 
 @Injectable({ providedIn: 'root' })
-export class TelusService {
+export class TimeTrackingService {
   private http = inject(HttpClient);
   private apiUrl = `http://192.168.1.21:8081/`;
   

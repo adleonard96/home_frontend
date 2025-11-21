@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #C5D1EB;
+}
+
+button {
+    background-color: #5A7684;
+    border-radius: 0.4em;
+    border-style: hidden;
+    margin: 1em;
+}
+
+button:hover {
+    background-color: #7996a4;
+}
+
+* {
+    color: #1F2F16
+}
+
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root { font-family: InterVariable, sans-serif; }
+}

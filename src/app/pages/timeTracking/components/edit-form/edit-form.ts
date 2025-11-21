@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
-import { TelusService } from '../../services/Telus.service';
+import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { error } from 'node:console';
 
@@ -22,7 +22,7 @@ export class EditForm implements OnChanges {
   formStart = new FormControl<string | null | undefined>(null);
   formStop = new FormControl<string | null | undefined>(null);
 
-  private service = inject(TelusService);
+  private service = inject(TimeTrackingService);
 
   ngOnChanges() {
     this.formStart.setValue(this.toLocalInputValue(this.start));
