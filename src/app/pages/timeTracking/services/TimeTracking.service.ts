@@ -26,7 +26,7 @@ export class TimeTrackingService {
   
   createWorkEvent(start: Date): Observable<HttpResponses.event> {
     return this.http.post<HttpResponses.event>(this.apiUrl + 'workEvent', {
-      "start": start.toISOString().slice(0,19),
+      "start": DateTimeUtility.UtcStringWithoutOffset(start),
       "dayOfWeek": this.getDayString(start.getDay())
     })
   }
