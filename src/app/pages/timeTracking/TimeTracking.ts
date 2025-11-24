@@ -20,7 +20,9 @@ export class TimeTracking {
   @Output() updateComplete = new EventEmitter<void>();
     
   // events: Array<HttpResponses.event>;
-  events: WritableSignal<HttpResponses.event[]> = signal([])
+  events: WritableSignal<HttpResponses.event[]> = signal([]);
+  todaysEvents: WritableSignal<HttpResponses.event[]> = signal([]);
+  hoursToday: WritableSignal<number> = signal(0);
   constructor() {
     effect(() => {
       let todayEpoch = Date.now();
@@ -36,7 +38,20 @@ export class TimeTracking {
       this.service.getWorkEvents(sunday, saturday).subscribe(
         value => {
           if (value.length > 0){
-            this.events.set(value.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()))
+            this.events.set(value.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()));
+            this.todaysEvents.set(this.events().filter(event => {
+              let eventDate = new Date(event.start);
+              return eventDate.getDate() == today.getDate() &&
+                     eventDate.getMonth() == today.getMonth() &&
+                     eventDate.getFullYear() == today.getFullYear()
+                     && event.stop !== undefined;
+            }));
+            this.hoursToday.set(this.todaysEvents().reduce((acc, event) => {
+              let start = new Date(event.start).getTime();
+              let end = event.stop ? new Date(event.stop).getTime() : Date.now();
+              let durationInHours = (end - start) / (1000 * 60 * 60);
+              return acc + durationInHours;
+            }, 0));
           }
         },
         error => console.error(error)
