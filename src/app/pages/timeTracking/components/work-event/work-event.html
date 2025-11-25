@@ -1,8 +1,6 @@
 <div class="event">
   <div class="date-info">
     <h4 class="title">Start</h4>
-    <p class="date-text">{{ start }}</p>
-   
     @let stopValue = stop$ | async;
     @if (stopValue) {
       <h4 class="title">Stop</h4>
@@ -11,6 +9,8 @@
       <h4 class="title">Stop</h4>
       <p class="date-text">Event not stopped</p>
     }
+    <p class="date-text">{{ start }}</p>
+   
     <h4 class="title">Day of The Week</h4>
     <p class="date-text">{{ dayOfWeek  }}</p>
   </div>
