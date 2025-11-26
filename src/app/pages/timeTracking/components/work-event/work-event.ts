@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { TimeTracking } from '../../TimeTracking';
 import { EditForm } from '../edit-form/edit-form';
 import { error } from 'node:console';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-work-event',
@@ -23,10 +24,11 @@ export class WorkEvent {
   
   private service = inject(TimeTrackingService);
   private master = inject(TimeTracking);
-  
   private stopSubject = new BehaviorSubject<string | undefined>(undefined);
   stop$?: Observable<string | undefined> = this.stopSubject.asObservable();
-  
+
+  constructor(private clipboard: Clipboard) {}
+
   ngOnInit() {
     if (this.stop) {
       this.stopSubject.next(this.stop);
@@ -82,5 +84,9 @@ export class WorkEvent {
     this.start = start;
     this.stop = stop;
     this.dayOfWeek = dayOfWeek;
+  }
+
+  copy(value: any) {
+    this.clipboard.copy(value);
   }
 }
