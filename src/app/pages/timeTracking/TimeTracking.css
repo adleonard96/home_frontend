@@ -10,3 +10,8 @@ main {
     justify-content: center;
     align-items: center;
 }
+
+.day-break {
+    border-bottom: 5px solid black;
+    margin-bottom: 16px;
+}
