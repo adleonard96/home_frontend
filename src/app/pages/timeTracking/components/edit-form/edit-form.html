@@ -1,10 +1,10 @@
 <div>
-    <form class="edit-form">
-        <label for="start">Start Date Time</label>
-        <input name="start" [formControl]="formStart" type="datetime-local">
-        <label for="stop">Stop Date Time</label>
-        <input name="stop" [formControl]="formStop" type="datetime-local">
-        <button (click)="closeFn()">Close</button>
-        <button (click)="submit()">Submit</button>
-    </form>
+  <form class="edit-form">
+    <label for="start"><h4 class="form-title">Start Date Time</h4></label>
+    <input class="date-input" name="start" [formControl]="formStart" type="datetime-local" />
+    <label for="stop"><h4 class="form-title">Stop Date Time</h4></label>
+    <input class="date-input" name="stop" [formControl]="formStop" type="datetime-local" />
+    <button (click)="closeFn()">Close</button>
+    <button (click)="submit()">Submit</button>
+  </form>
 </div>
