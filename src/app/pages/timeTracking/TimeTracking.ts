@@ -37,7 +37,7 @@ export class TimeTracking {
   daysFromSunday = this.today.getDay();
   daysToSaturday = this.SATURDAY_NO - this.today.getDay();
   todayEpoch = Date.now();
-  sunday = new Date(this.todayEpoch - this.daysFromSunday * this.DAY_IN_MS);
+  sunday = new Date(this.todayEpoch - (this.daysFromSunday - 1) * this.DAY_IN_MS);
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
   
   constructor() {
