@@ -8,17 +8,14 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { RouterModule} from '@angular/router';
 import { TimeTrackingService } from './services/TimeTracking.service';
-import { concatMap, map, Observable, of, scan } from 'rxjs';
 import { HttpResponses } from './models/HttpResponses';
 import { WorkEvent } from './components/work-event/work-event';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'timeTracking-root',
-  imports: [RouterOutlet, RouterModule, WorkEvent, AsyncPipe],
+  imports: [RouterModule, WorkEvent],
   templateUrl: './TimeTracking.html',
   styleUrl: './TimeTracking.css',
 })
@@ -37,7 +34,7 @@ export class TimeTracking {
   daysFromSunday = this.today.getDay();
   daysToSaturday = this.SATURDAY_NO - this.today.getDay();
   todayEpoch = Date.now();
-  sunday = new Date(this.todayEpoch - (this.daysFromSunday - 1) * this.DAY_IN_MS);
+  sunday = new Date(this.todayEpoch - (this.daysFromSunday + 1) * this.DAY_IN_MS);
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
   
   constructor() {
