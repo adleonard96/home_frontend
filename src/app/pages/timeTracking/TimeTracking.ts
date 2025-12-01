@@ -26,24 +26,23 @@ import { AsyncPipe } from '@angular/common';
 export class TimeTracking {
   private service = inject(TimeTrackingService);
   @Output() updateComplete = new EventEmitter<void>();
+  SATURDAY_NO = 6 as const;
+  DAY_IN_MS = 86_400_000 as const;
 
   // events: Array<HttpResponses.event>;
   events: WritableSignal<HttpResponses.event[]> = signal([]);
   todaysEvents: WritableSignal<HttpResponses.event[]> = signal([]);
   hoursToday: WritableSignal<number> = signal(0);
   today = new Date();
+  daysFromSunday = this.today.getDay();
+  daysToSaturday = this.SATURDAY_NO - this.today.getDay();
+  todayEpoch = Date.now();
+  sunday = new Date(this.todayEpoch - this.daysFromSunday * this.DAY_IN_MS);
+  saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
+  
   constructor() {
     effect(() => {
-      let todayEpoch = Date.now();
-      let daysFromSunday = this.today.getDay();
-      const SATURDAY_NO = 6;
-      let daysToSaturday = SATURDAY_NO - this.today.getDay();
-
-      let DAY_IN_MS = 86_400_000;
-      let sunday = new Date(todayEpoch - daysFromSunday * DAY_IN_MS);
-      let saturday = new Date(todayEpoch + daysToSaturday * DAY_IN_MS);
-
-
+      this.setWorkEvents(this.saturday, this.sunday);
     });
   }
 
@@ -87,10 +86,20 @@ export class TimeTracking {
                 return acc + durationInHours;
               }, 0)
             );
+          } else {
+            this.events.set([]);
+            this.todaysEvents.set([]);
+            this.hoursToday.set(0);
           }
         },
         (error) => console.error(error)
       );
+  }
+
+  changeWeek(timeDiffInDays: number) {
+    this.sunday.setDate(this.sunday.getDate() + timeDiffInDays);
+    this.saturday.setDate(this.saturday.getDate() + timeDiffInDays);
+    this.setWorkEvents(this.saturday, this.sunday);
   }
 
   brCheck = "";

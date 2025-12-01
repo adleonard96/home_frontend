@@ -2,7 +2,11 @@
   <div>
     <div class="timeTracking-content">
       <h1>Time Tracking</h1>
-      <button (click)="creatWorkEvent()">Create Event</button>
+      <div class="event-controls">
+        <button (click)="changeWeek(-7)">Previous Week</button>
+        <button (click)="creatWorkEvent()">Create Event</button>
+        <button (click)="changeWeek(7)">Next Week</button>
+      </div>
       <div class="hours-today">
         <h2>Hours Today: {{ hoursToday() }}</h2>
       </div>
