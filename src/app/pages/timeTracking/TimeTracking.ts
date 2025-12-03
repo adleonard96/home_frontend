@@ -8,7 +8,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { TimeTrackingService } from './services/TimeTracking.service';
 import { HttpResponses } from './models/HttpResponses';
 import { WorkEvent } from './components/work-event/work-event';
@@ -36,11 +36,14 @@ export class TimeTracking {
   todayEpoch = Date.now();
   sunday = new Date(this.todayEpoch - this.daysFromSunday * this.DAY_IN_MS);
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
-  
+
   constructor() {
     effect(() => {
       this.setWorkEvents(this.saturday, this.sunday);
     });
+    setInterval(() => {
+      this.updateTodaysHours();
+    }, 1000);
   }
 
   creatWorkEvent() {
@@ -58,58 +61,62 @@ export class TimeTracking {
   }
 
   setWorkEvents(saturday: Date, sunday: Date) {
-      this.service.getWorkEvents(sunday, saturday).subscribe(
-        (value) => {
-          if (value.length > 0) {
-            this.events.set(
-              value.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime())
-            );
-            this.todaysEvents.set(
-              this.events().filter((event) => {
-                let eventDate = new Date(event.start);
-                return (
-                  eventDate.getDate() == this.today.getDate() &&
-                  eventDate.getMonth() == this.today.getMonth() &&
-                  eventDate.getFullYear() == this.today.getFullYear() &&
-                  event.stop !== undefined
-                );
-              })
-            );
-            this.hoursToday.set(
-              this.todaysEvents().reduce((acc, event) => {
-                let start = new Date(event.start).getTime();
-                let end = event.stop ? new Date(event.stop).getTime() : Date.now();
-                let durationInHours = (end - start) / (1000 * 60 * 60);
-                return acc + durationInHours;
-              }, 0)
-            );
-          } else {
-            this.events.set([]);
-            this.todaysEvents.set([]);
-            this.hoursToday.set(0);
-          }
-        },
-        (error) => console.error(error)
-      );
+    this.service.getWorkEvents(sunday, saturday).subscribe(
+      (value) => {
+        if (value.length > 0) {
+          this.events.set(
+            value.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime())
+          );
+          this.todaysEvents.set(
+            this.events().filter((event) => {
+              let eventDate = new Date(event.start);
+              return (
+                eventDate.getDate() == this.today.getDate() &&
+                eventDate.getMonth() == this.today.getMonth() &&
+                eventDate.getFullYear() == this.today.getFullYear() &&
+                event.stop !== undefined
+              );
+            })
+          );
+          this.updateTodaysHours();
+        } else {
+          this.events.set([]);
+          this.todaysEvents.set([]);
+          this.hoursToday.set(0);
+        }
+      },
+      (error) => console.error(error)
+    );
   }
 
+  updateTodaysHours() {
+    this.hoursToday.set(
+      this.todaysEvents().reduce((acc, event) => {
+        let start = new Date(event.start).getTime();
+        let end = event.stop ? new Date(event.stop).getTime() : Date.now();
+        let durationInHours = (end - start) / (1000 * 60 * 60);
+        return +`${acc + durationInHours}`.slice(0, 7);
+      }, 0)
+    );
+  }
   changeWeek(timeDiffInDays: number) {
     this.sunday.setDate(this.sunday.getDate() + timeDiffInDays);
     this.saturday.setDate(this.saturday.getDate() + timeDiffInDays);
     this.setWorkEvents(this.saturday, this.sunday);
   }
 
-  brCheck = "";
+  brCheck = '';
   checkForBorder(dayOfWeek: string): boolean {
-    if (this.brCheck === "") {
+    if (this.brCheck === '') {
       this.brCheck = dayOfWeek;
       return true;
-    } 
-    
-    let isTheSame = this.brCheck === dayOfWeek
+    }
+
+    let isTheSame = this.brCheck === dayOfWeek;
     this.brCheck = dayOfWeek;
     return isTheSame;
   }
+
   // calcTimeForWeek() {
   //   let events = this.events().filter()
   // }
