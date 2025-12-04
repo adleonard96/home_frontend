@@ -45,21 +45,20 @@ export class EventList {
     }, 1000);
   }
 
-groupedEvents: Signal<[string, HttpResponses.event[]][]> = computed(() => {
-  const groups: Record<string, HttpResponses.event[]> = {};
+  groupedEvents: Signal<[string, HttpResponses.event[]][]> = computed(() => {
+    const groups: Record<string, HttpResponses.event[]> = {};
 
-  for (const e of this.events()) {
-    if (!groups[e.dayOfWeek]) groups[e.dayOfWeek] = [];
-    groups[e.dayOfWeek].push(e);
-  }
+    for (const e of this.events()) {
+      if (!groups[e.dayOfWeek]) groups[e.dayOfWeek] = [];
+      groups[e.dayOfWeek].push(e);
+    }
 
-  const dayOrder = ["Saturday","Friday","Thursday","Wednesday","Tuesday","Monday","Sunday"];
+    const dayOrder = ['Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday', 'Sunday'];
 
-  return dayOrder
-    .filter(day => groups[day])
-    .map(day => [day, groups[day]] as [string, HttpResponses.event[]]); // <-- type assertion
-});
-
+    return dayOrder
+      .filter((day) => groups[day])
+      .map((day) => [day, groups[day]] as [string, HttpResponses.event[]]); // <-- type assertion
+  });
 
   creatWorkEvent() {
     let res = this.service.createWorkEvent(new Date());
@@ -67,15 +66,27 @@ groupedEvents: Signal<[string, HttpResponses.event[]][]> = computed(() => {
     res.subscribe((value) => {
       if (value) {
         let currentEvents = [value].concat(this.events());
-
         this.events.set(currentEvents);
-        console.log(this.events);
+        this.todaysEvents.set([value, ...this.todaysEvents()])
+        this.updateTodaysHours();
       }
     });
   }
 
   deleteWorkEvent(id: number) {
     this.events.set(this.events().filter((event) => event.id != id));
+    this.todaysEvents.set(this.todaysEvents().filter((event) => event.id != id));
+    this.updateTodaysHours();
+  }
+
+  startStopWorkEvent(id: number, stopValue: string | undefined) {
+    this.events.set(this.events().map((event) => {
+      if (event.id === id) {
+        event.stop = stopValue;
+      }
+      return event
+    }));
+    this.updateTodaysHours();
   }
 
   setWorkEvents(saturday: Date, sunday: Date) {

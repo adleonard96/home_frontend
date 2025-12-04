@@ -45,6 +45,7 @@ export class WorkEvent {
         error: (err) => console.error(err)
       })
     this.stopSubject.next(undefined);
+    this.master.startStopWorkEvent(id, undefined)
     this.updateComplete.emit();
   }
 
@@ -66,6 +67,9 @@ export class WorkEvent {
       .subscribe({
         next: (stopValue) => {
           this.stopSubject.next(stopValue);
+          if (stopValue) {
+            this.master.startStopWorkEvent(id, stopValue);
+          }
           this.updateComplete.emit();
         },
         error: (err) => console.error(err),
