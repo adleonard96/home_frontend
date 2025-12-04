@@ -2,15 +2,11 @@
   <div class="date-info">
     <h4 class="title">Date</h4>
     <p class="date-text">{{ start?.slice(0, 10) }}</p>
-    @let stopValue = stop$ | async; @if (stopValue) {
+    @let stopValue = stop$ | async; 
     <h4 class="title">Stop</h4>
     <p class="date-text" (click)="copy(stopValue?.slice(11))" style="cursor: pointer">
-      {{ stopValue?.slice(11) }}
+      {{ stopValue?.slice(11) ?? 'Event not stopped'}}
     </p>
-    } @else {
-    <h4 class="title">Stop</h4>
-    <p class="date-text">Event not stopped</p>
-    }
     <h4 class="title">Start</h4>
     <p class="date-text" (click)="copy(start?.slice(11))" style="cursor: pointer">
       {{ start?.slice(11) }}
