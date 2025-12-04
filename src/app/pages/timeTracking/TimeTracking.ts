@@ -6,6 +6,7 @@ import {
   Injectable,
   Output,
   signal,
+  untracked,
   WritableSignal,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -38,9 +39,10 @@ export class TimeTracking {
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
 
   constructor() {
-    effect(() => {
-      this.setWorkEvents(this.saturday, this.sunday);
-    });
+    // effect(() => {
+    //   untracked(() => this.setWorkEvents(this.saturday, this.sunday));
+    // });
+    this.setWorkEvents(this.saturday, this.sunday);
     setInterval(() => {
       this.updateTodaysHours();
     }, 1000);
@@ -51,7 +53,10 @@ export class TimeTracking {
 
     res.subscribe((value) => {
       if (value) {
-        this.events.set([value, ...this.events()]);
+        let currentEvents = [value].concat(this.events());
+
+        this.events.set(currentEvents);
+        console.log(this.events);
       }
     });
   }
