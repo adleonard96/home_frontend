@@ -1,17 +1,19 @@
 import {
   Component,
+  computed,
   effect,
   EventEmitter,
   inject,
   Injectable,
   Output,
+  Signal,
   signal,
   untracked,
   WritableSignal,
 } from '@angular/core';
 import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { HttpResponses } from '../../models/HttpResponses';
-import { WorkEvent } from "../work-event/work-event"
+import { WorkEvent } from '../work-event/work-event';
 
 @Component({
   selector: 'app-event-list',
@@ -37,14 +39,26 @@ export class EventList {
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
 
   constructor() {
-    // effect(() => {
-    //   untracked(() => this.setWorkEvents(this.saturday, this.sunday));
-    // });
     this.setWorkEvents(this.saturday, this.sunday);
     setInterval(() => {
       this.updateTodaysHours();
     }, 1000);
   }
+
+groupedEvents: Signal<[string, HttpResponses.event[]][]> = computed(() => {
+  const groups: Record<string, HttpResponses.event[]> = {};
+
+  for (const e of this.events()) {
+    if (!groups[e.dayOfWeek]) groups[e.dayOfWeek] = [];
+    groups[e.dayOfWeek].push(e);
+  }
+
+  const dayOrder = ["Saturday","Friday","Thursday","Wednesday","Tuesday","Monday","Sunday"];
+
+  return dayOrder
+    .filter(day => groups[day])
+    .map(day => [day, groups[day]] as [string, HttpResponses.event[]]); // <-- type assertion
+});
 
 
   creatWorkEvent() {
@@ -104,7 +118,7 @@ export class EventList {
     );
   }
 
-   changeWeek(timeDiffInDays: number) {
+  changeWeek(timeDiffInDays: number) {
     this.sunday.setDate(this.sunday.getDate() + timeDiffInDays);
     this.saturday.setDate(this.saturday.getDate() + timeDiffInDays);
     this.setWorkEvents(this.saturday, this.sunday);
