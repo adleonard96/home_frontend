@@ -4,8 +4,8 @@ import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { TimeTracking } from '../../TimeTracking';
 import { EditForm } from '../edit-form/edit-form';
-import { error } from 'node:console';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { EventList } from '../event-list/event-list';
 
 @Component({
   selector: 'app-work-event',
@@ -23,7 +23,7 @@ export class WorkEvent {
   editMode: boolean = false;
   
   private service = inject(TimeTrackingService);
-  private master = inject(TimeTracking);
+  private master = inject(EventList);
   private stopSubject = new BehaviorSubject<string | undefined>(undefined);
   stop$?: Observable<string | undefined> = this.stopSubject.asObservable();
 

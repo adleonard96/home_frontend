@@ -1,0 +1,28 @@
+<div class="event-controls">
+  <button (click)="changeWeek(-7)">Previous Week</button>
+  <button (click)="creatWorkEvent()">Create Event</button>
+  <button (click)="changeWeek(7)">Next Week</button>
+</div>
+<!-- <div class="week-display">
+        <h2>Week of {{ sunday }} - {{ saturday }}</h2>
+      </div> -->
+<div class="hours-today">
+  <h2>Hours Today: {{ hoursToday() }}</h2>
+</div>
+
+<div>
+  @if(events().length > 0 ){ @for (event of (events()); track $index) { @if
+  (!checkForBorder(event.dayOfWeek)) {
+  <div class="day-break"></div>
+  }
+  <app-work-event
+    class="event"
+    [dayOfWeek]="event.dayOfWeek"
+    [id]="event.id"
+    [start]="event.start"
+    [stop]="event.stop"
+  />
+  } } @else {
+  <h1>No events available</h1>
+  }
+</div>
