@@ -17,6 +17,8 @@ export class EditForm implements OnChanges {
   @Input() dayOfWeek: string | undefined = '';
   @Input() closeFn: any;
   @Input() updateEvent: any;
+  @Input() isTraining: any;
+  @Input() trainingDescription: any;
   
 
   formStart = new FormControl<string | null | undefined>(null);

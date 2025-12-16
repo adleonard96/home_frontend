@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { TimeTracking } from '../../TimeTracking';
@@ -18,6 +18,8 @@ export class WorkEvent {
   @Input() id: number | undefined;
   @Input() start: string | undefined;
   @Input() stop: string | undefined;
+  @Input() isTraining: boolean | undefined;
+  @Input() trainingDescription: string | undefined;
   @Output() updateComplete = new EventEmitter<void>();
   
   editMode: boolean = false;
@@ -26,26 +28,33 @@ export class WorkEvent {
   private master = inject(EventList);
   private stopSubject = new BehaviorSubject<string | undefined>(undefined);
   stop$?: Observable<string | undefined> = this.stopSubject.asObservable();
-
+  
   constructor(private clipboard: Clipboard) {}
-
+  
   ngOnInit() {
     if (this.stop) {
       this.stopSubject.next(this.stop);
     }
   }
   
+  getColor() {
+    if (this.isTraining) {
+      return "red"
+    } else {
+      return "#92AFD7"
+    }
+  }
+
   updateEdit() {
     this.editMode = true;
   }
-  
+
   resumeEvent(id: number) {
-    this.service.resumeEvent(id).
-      subscribe({
-        error: (err) => console.error(err)
-      })
+    this.service.resumeEvent(id).subscribe({
+      error: (err) => console.error(err),
+    });
     this.stopSubject.next(undefined);
-    this.master.startStopWorkEvent(id, undefined)
+    this.master.startStopWorkEvent(id, undefined);
     this.updateComplete.emit();
   }
 
@@ -84,10 +93,12 @@ export class WorkEvent {
     });
   }
 
-  updateEvent(start: string, stop: string, dayOfWeek: string) {
+  updateEvent(start: string, stop: string, dayOfWeek: string, isTraining: boolean, trainingDescription: string) {
     this.start = start;
     this.stop = stop;
     this.dayOfWeek = dayOfWeek;
+    this.isTraining = isTraining;
+    this.trainingDescription = trainingDescription;
   }
 
   copy(value: any) {

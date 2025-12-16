@@ -10,6 +10,8 @@ export namespace HttpResponses {
         dayOfWeek: string,
         id: number,
         start: string,
-        stop?: string
+        stop?: string,
+        isTraining: boolean,
+        trainingDescription?: string
     }
 }

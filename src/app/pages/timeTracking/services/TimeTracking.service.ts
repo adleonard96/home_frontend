@@ -20,7 +20,7 @@ export class TimeTrackingService {
     end.setHours(12);
     let sunday = start.toISOString().slice(0, 10);
     let saturday = end.toISOString().slice(0, 10);
-    let url = this.apiUrl + `workEvents?start=${sunday}&end=${saturday}`;
+    let url = this.apiUrl + `v2/workEvents?start=${sunday}&end=${saturday}`;
     return this.http.get<Array<HttpResponses.event>>(url);
   }
   
