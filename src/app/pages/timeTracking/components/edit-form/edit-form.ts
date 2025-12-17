@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { error } from 'node:console';
 
 @Component({
   selector: 'app-edit-form',
@@ -17,8 +16,8 @@ export class EditForm implements OnChanges {
   @Input() dayOfWeek: string | undefined = '';
   @Input() closeFn: any;
   @Input() updateEvent: any;
-  @Input() isTraining: any;
-  @Input() trainingDescription: any;
+  @Input() isTraining?: boolean;
+  @Input() trainingDescription?: string | null;
   
 
   formStart = new FormControl<string | null | undefined>(null);
@@ -30,6 +29,7 @@ export class EditForm implements OnChanges {
   ngOnChanges() {
     this.formStart.setValue(this.toLocalInputValue(this.start));
     this.formStop.setValue(this.toLocalInputValue(this.stop));
+    this.formTrainingDescription.setValue(this.trainingDescription ?? null);
   }
 
   private toLocalInputValue(dateString?: string | null): string {

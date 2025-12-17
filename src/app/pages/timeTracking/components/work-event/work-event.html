@@ -16,7 +16,7 @@
     <p class="date-text">{{ dayOfWeek }}</p>
     @if (trainingDescription) {
       <h4 class="title">Training Description</h4>
-      <p>{{trainingDescription}}</p>
+      <p class="date-text" (click)="copy(trainingDescription)" style="cursor: pointer">{{trainingDescription}}</p>
     }
   </div>
   <div class="event-buttons">

@@ -5,7 +5,7 @@
     <label for="stop"><h4 class="form-title">Stop Date Time</h4></label>
     <input class="date-input" name="stop" [formControl]="formStop" type="datetime-local" />
     <label for="trainingDescription"><h4 class="form-title">Training Description</h4></label>
-    <input name="trainingDescription" [formControl]="formTrainingDescription" />
+    <input name="trainingDescription" [formControl]="formTrainingDescription" type="text" value="test"/>
     <button (click)="closeFn()">Close</button>
     <button (click)="submit()">Submit</button>
   </form>
