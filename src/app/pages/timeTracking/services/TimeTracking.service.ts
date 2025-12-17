@@ -35,12 +35,14 @@ export class TimeTrackingService {
     return this.http.patch(this.apiUrl + 'workEvent/resume/' + id,{})
   }
   
-  updateWorkEvent(id: number, start: Date, stop: Date){
-    return this.http.patch<HttpResponses.event>(this.apiUrl + 'workEvent', {
+  updateWorkEvent(id: number, start: Date, stop: Date, formTrainingDescription: string | null | undefined){
+    return this.http.patch<HttpResponses.event>(this.apiUrl + 'v2/workEvent', {
       "start": DateTimeUtility.UtcStringWithoutOffset(start),
       "stop": DateTimeUtility.UtcStringWithoutOffset(stop),
       "dayOfWeek": this.getDayString(start.getDay()),
-      "id": id
+      "id": id,
+      "isTraining": formTrainingDescription ? true : false,
+      "trainingDescription": formTrainingDescription ? formTrainingDescription : null
     })
   }
 

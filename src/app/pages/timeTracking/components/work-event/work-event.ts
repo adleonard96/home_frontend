@@ -39,7 +39,7 @@ export class WorkEvent {
   
   getColor() {
     if (this.isTraining) {
-      return "red"
+      return "#9C8570"
     } else {
       return "#92AFD7"
     }

@@ -23,6 +23,7 @@ export class EditForm implements OnChanges {
 
   formStart = new FormControl<string | null | undefined>(null);
   formStop = new FormControl<string | null | undefined>(null);
+  formTrainingDescription = new FormControl<string | null | undefined>(null);
 
   private service = inject(TimeTrackingService);
 
@@ -45,11 +46,11 @@ export class EditForm implements OnChanges {
   submit() {
     if (!this.formStart.value || !this.formStop.value) return;
 
-    this.service.updateWorkEvent(this.id, new Date(this.formStart.value), new Date(this.formStop.value)).subscribe(
+    this.service.updateWorkEvent(this.id, new Date(this.formStart.value), new Date(this.formStop.value), this.formTrainingDescription.value).subscribe(
       value => {
-        this.formStop.setValue(value.stop),
-        this.formStart.setValue(value.start)
-        this.updateEvent(value.start, value.stop, value.dayOfWeek)
+        this.formStop.setValue(value.stop);
+        this.formStart.setValue(value.start);
+        this.updateEvent(value.start, value.stop, value.dayOfWeek, value.isTraining, value.trainingDescription);
       },
       error => {
         console.error(error);
