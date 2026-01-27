@@ -14,6 +14,8 @@ import {
 import { TimeTrackingService } from '../../services/TimeTracking.service';
 import { HttpResponses } from '../../models/HttpResponses';
 import { WorkEvent } from '../work-event/work-event';
+import { Title } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-event-list',
@@ -38,7 +40,7 @@ export class EventList {
   sunday = new Date(this.todayEpoch - this.daysFromSunday * this.DAY_IN_MS);
   saturday = new Date(this.todayEpoch + this.daysToSaturday * this.DAY_IN_MS);
 
-  constructor() {
+  constructor(private titleService: Title) {
     this.setWorkEvents(this.saturday, this.sunday);
     setInterval(() => {
       this.updateTodaysHours();
@@ -119,14 +121,16 @@ export class EventList {
   }
 
   updateTodaysHours() {
-    this.hoursToday.set(
-      this.todaysEvents().reduce((acc, event) => {
+    let hours = this.todaysEvents().reduce((acc, event) => {
         let start = new Date(event.start).getTime();
         let end = event.stop ? new Date(event.stop).getTime() : Date.now();
         let durationInHours = (end - start) / (1000 * 60 * 60);
         return +`${acc + durationInHours}`.slice(0, 7);
       }, 0)
+    this.hoursToday.set(
+      hours
     );
+    this.titleService.setTitle(`${hours} - Time Tracking`);
   }
 
   changeWeek(timeDiffInDays: number) {
