@@ -6,7 +6,7 @@ import { BattlefieldSeasonData } from './battlefield-season.model';
 @Injectable({ providedIn: 'root' })
 export class BattlefieldSeasonService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/bf6/seasons';
+  private readonly apiUrl = 'http://192.168.1.21:8081/bf6/seasons';
 
   createSeason(name: string, startDate: string, endDate: string): Observable<BattlefieldSeasonData> {
     return this.http.post<BattlefieldSeasonData>(this.apiUrl, { name, startDate, endDate });
