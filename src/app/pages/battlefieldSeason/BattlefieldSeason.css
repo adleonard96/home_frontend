@@ -1,0 +1,190 @@
+:host {
+  display: block;
+}
+
+.season-page {
+  box-sizing: border-box;
+  display: grid;
+  gap: 1.25rem;
+  margin: 2.5rem auto;
+  max-width: 42rem;
+  padding: 0 1rem;
+}
+
+.page-header {
+  padding: 0.5rem 0;
+}
+
+.page-header h1,
+.season-heading h2,
+.create-card h2 {
+  margin: 0.2rem 0 0.5rem;
+}
+
+.page-header > p:last-child,
+.form-intro {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.eyebrow,
+.detail-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.eyebrow {
+  margin: 0;
+}
+
+.progress-card,
+.create-card {
+  background: #e0e7f4;
+  border: 1px solid rgb(31 47 22 / 12%);
+  border-radius: 1rem;
+  box-shadow: 0 0.75rem 2rem rgb(31 47 22 / 8%);
+  padding: 1.5rem;
+}
+
+.season-heading,
+.season-dates,
+.progress-stats,
+.progress-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.season-weeks {
+  background: #c5d1eb;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.75rem;
+}
+
+.season-dates {
+  border-bottom: 1px solid rgb(31 47 22 / 14%);
+  border-top: 1px solid rgb(31 47 22 / 14%);
+  margin: 1.25rem 0;
+  padding: 1rem 0;
+}
+
+.season-dates > div,
+.stat {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.progress-stats {
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.stat {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.progress-actions {
+  border-top: 1px solid rgb(31 47 22 / 14%);
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+}
+
+.progress-actions button {
+  align-items: center;
+  display: inline-flex;
+  font-size: 1.5rem;
+  height: 2.75rem;
+  justify-content: center;
+  margin: 0;
+  width: 2.75rem;
+}
+
+.progress-actions button:disabled,
+.create-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.create-card form,
+.create-card label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.create-card form {
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+input {
+  background: #f8f9fc;
+  border: 1px solid rgb(31 47 22 / 28%);
+  border-radius: 0.4rem;
+  box-sizing: border-box;
+  color: #1f2f16;
+  font: inherit;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.65rem;
+  width: 100%;
+}
+
+.create-button {
+  justify-self: start;
+  margin: 0.25rem 0 0;
+  padding: 0.75rem 1rem;
+}
+
+.status-message,
+.feedback {
+  border-radius: 0.6rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+}
+
+.status-message {
+  background: rgb(255 255 255 / 35%);
+}
+
+.feedback.error {
+  background: #f8ddda;
+  color: #70241d;
+}
+
+.feedback.success {
+  background: #dcebd7;
+  color: #244a1d;
+}
+
+@media (max-width: 36rem) {
+  .progress-card,
+  .create-card {
+    padding: 1.1rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .season-heading {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

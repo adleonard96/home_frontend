@@ -1,0 +1,111 @@
+<main class="season-page">
+  <header class="page-header">
+    <p class="eyebrow">BATTLEFIELD 6</p>
+    <h1>Season Progress</h1>
+    <p>Track your XP levels and remaining battle pass tiers.</p>
+  </header>
+
+  @if (loadingSeason()) {
+    <p class="status-message" role="status">Loading season progress…</p>
+  } @else if (season(); as currentSeason) {
+    <section class="progress-card" aria-labelledby="current-season-heading">
+      <div class="season-heading">
+        <div>
+          <p class="eyebrow">CURRENT SEASON</p>
+          <h2 id="current-season-heading">{{ currentSeason.name }}</h2>
+        </div>
+        <span class="season-weeks">{{ currentSeason.estimatedNumberOfWeeks }} weeks</span>
+      </div>
+
+      <div class="season-dates">
+        <div>
+          <span class="detail-label">Starts</span>
+          <span>{{ currentSeason.startDate }}</span>
+        </div>
+        <div>
+          <span class="detail-label">Ends</span>
+          <span>{{ currentSeason.endDate }}</span>
+        </div>
+      </div>
+
+      <div class="progress-stats">
+        <div class="stat">
+          <span class="stat-value">{{ currentSeason.numberOfXpLevelsAchieved }}</span>
+          <span class="detail-label">XP levels achieved</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ remainingTiers() ?? '—' }}</span>
+          <span class="detail-label">Remaining tiers</span>
+        </div>
+      </div>
+
+      <div class="progress-actions">
+        <button
+          type="button"
+          (click)="changeXpLevel('decrement')"
+          [disabled]="updatingProgress() || currentSeason.numberOfXpLevelsAchieved === 0"
+          aria-label="Decrease XP levels"
+        >
+          −
+        </button>
+        <span>{{ updatingProgress() ? 'Updating…' : 'Adjust XP levels' }}</span>
+        <button
+          type="button"
+          (click)="changeXpLevel('increment')"
+          [disabled]="updatingProgress()"
+          aria-label="Increase XP levels"
+        >
+          +
+        </button>
+      </div>
+    </section>
+  } @else {
+    <p class="status-message">No season found yet. Create one to start tracking progress.</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="feedback error" role="alert">{{ errorMessage() }}</p>
+  }
+  @if (successMessage()) {
+    <p class="feedback success" role="status">{{ successMessage() }}</p>
+  }
+
+  <section class="create-card" aria-labelledby="create-season-heading">
+    <p class="eyebrow">NEW SEASON</p>
+    <h2 id="create-season-heading">Set up a season</h2>
+    <p class="form-intro">Choose a start date and duration to calculate the season end date.</p>
+
+    <form (ngSubmit)="createSeason()">
+      <label>
+        Season name
+        <input
+          type="text"
+          name="seasonName"
+          [(ngModel)]="seasonName"
+          required
+          maxlength="100"
+        />
+      </label>
+      <div class="form-row">
+        <label>
+          Start date
+          <input type="date" name="startDate" [(ngModel)]="startDate" required />
+        </label>
+        <label>
+          Duration (weeks)
+          <input
+            type="number"
+            name="weeks"
+            [(ngModel)]="weeks"
+            min="1"
+            step="1"
+            required
+          />
+        </label>
+      </div>
+      <button class="create-button" type="submit" [disabled]="creatingSeason() || loadingSeason()">
+        {{ creatingSeason() ? 'Creating…' : 'Create season' }}
+      </button>
+    </form>
+  </section>
+</main>
